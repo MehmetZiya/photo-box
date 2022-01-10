@@ -5,8 +5,12 @@ const Navbar = () => {
     <nav className='navbar'>
       <ul>
         <li className='logo'>
-          <img src={logo} alt='logo' />
-          <span>Photo Box</span>
+          <Link to='/'>
+            <div className='logo'>
+              <img src={logo} alt='logo' />
+              <span>Photo Box</span>
+            </div>
+          </Link>
         </li>
         <li>
           <Link to='login'>Login</Link>

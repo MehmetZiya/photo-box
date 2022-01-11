@@ -1,13 +1,16 @@
 import { useState } from 'react'
+import { useRegister } from '../hooks/useRegister'
 
 const Register = () => {
   const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
+  const { isPending, error, register } = useRegister()
+
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log(username, email, password)
+    register(email, password, username)
   }
   return (
     <form className='login-form' onSubmit={handleSubmit}>
@@ -39,7 +42,13 @@ const Register = () => {
           value={password}
         />
       </label>
-      <button className='btn'>Log in</button>
+      {!isPending && <button className='btn'>Log in</button>}
+      {isPending && (
+        <button disabled className='btn'>
+          Loading..
+        </button>
+      )}
+      {error && <div className='error'>{error}</div>}
     </form>
   )
 }

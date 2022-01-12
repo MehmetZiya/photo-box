@@ -1,0 +1,17 @@
+@import './variables.scss';
+
+#dropzone-container {
+  background-color: $bg;
+  border-radius: 4px;
+  border: 2px dashed $primary;
+  text-align: center;
+  padding: 1.5rem 1rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  cursor: pointer;
+
+  p {
+    font-size: 20px;
+    color: $primary;
+  }
+}

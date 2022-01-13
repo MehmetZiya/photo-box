@@ -1,12 +1,18 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { BrowserRouter } from 'react-router-dom'
+import { UserContextProvider } from './context/UserContext'
+import { ImageContextProvider } from './context/ImageContext'
+import SimpleReactLightbox from 'simple-react-lightbox'
 
 import App from './App'
 
 ReactDOM.render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>,
+  <UserContextProvider>
+    <ImageContextProvider>
+      <SimpleReactLightbox>
+        <App />
+      </SimpleReactLightbox>
+    </ImageContextProvider>
+  </UserContextProvider>,
   document.getElementById('root')
 )

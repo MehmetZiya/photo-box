@@ -7,7 +7,7 @@ const Navbar = () => {
   const { isPending, logout } = useLogout()
   const { user } = useUserContext()
   return (
-    <nav className='navbar'>
+    <nav className='bar'>
       <ul>
         <li className='logo'>
           <Link to='/'>

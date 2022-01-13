@@ -3,6 +3,7 @@ import { useDropzone } from 'react-dropzone'
 import { useUserContext } from '../hooks/useUserContext'
 import { useImageContext } from '../context/ImageContext'
 import { useUpload } from '../hooks/useUpload'
+import ProgressBar from 'react-bootstrap/ProgressBar'
 
 const Dropzone = () => {
   const { user } = useUserContext()
@@ -45,23 +46,29 @@ const Dropzone = () => {
     maxFiles: 1,
   })
   return (
-    <div {...getRootProps()} id='dropzone-container'>
-      <input {...getInputProps()} />
-      <p> Drop photo or click here</p>
-      {acceptedFiles.length > 0 && (
-        <div>
-          <ul>
-            {acceptedFiles.map((file) => (
-              <li key={file.name}>
-                {file.name} ({Math.round(file.size / 1024)} kb)
-              </li>
-            ))}
-            {progress && <p>{progress}</p>}
-            {error && <p>{error}</p>}
-          </ul>
-        </div>
-      )}
-    </div>
+    <>
+      <div {...getRootProps()} id='dropzone-container'>
+        <input {...getInputProps()} />
+        <p> Drop photo or click here</p>
+        {acceptedFiles.length > 0 && (
+          <div>
+            <ul>
+              {acceptedFiles.map((file) => (
+                <li key={file.name}>
+                  {file.name} ({Math.round(file.size / 1024)} kb)
+                </li>
+              ))}
+              {progress && (
+                <div>
+                  <ProgressBar animated now={progress} />
+                </div>
+              )}
+              {error && <p>{error}</p>}
+            </ul>
+          </div>
+        )}
+      </div>
+    </>
   )
 }
 

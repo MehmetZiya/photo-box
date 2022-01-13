@@ -58,6 +58,7 @@ const CreateAlbum = () => {
           </button>
         </form>
         <Dropzone />
+        {images.length > 0 && <p>Photos to upload :</p>}
         <Images images={images} onRemove={handleRemoveImage} />
         {error && <p>{error}</p>}
       </div>

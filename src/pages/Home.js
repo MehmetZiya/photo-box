@@ -1,11 +1,14 @@
+import AlbumList from '../components/AlbumList'
+import { useCollection } from '../hooks/useCollection'
+import { useUserContext } from '../hooks/useUserContext'
 const Home = () => {
+  const { user } = useUserContext()
+  const { documents, error } = useCollection('albums')
+
   return (
-    <div>
-      <p>
-        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Animi non eum
-        aliquid! Id, autem! Deleniti vero earum doloribus adipisci quas id
-        consequuntur vel, ab accusantium repellendus, iure quasi sapiente neque.
-      </p>
+    <div className='homePage'>
+      <h3>Album List</h3>
+      {user && <div>{documents && <AlbumList albums={documents} />}</div>}
     </div>
   )
 }

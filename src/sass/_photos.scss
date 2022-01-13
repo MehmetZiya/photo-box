@@ -1,0 +1,13 @@
+.img-flex {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 2rem;
+  .img-box {
+    width: 24rem;
+    height: auto;
+    margin: 1rem;
+    img {
+      width: 100%;
+    }
+  }
+}

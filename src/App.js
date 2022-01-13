@@ -10,6 +10,7 @@ import Home from './pages/Home'
 import Register from './pages/Register'
 import Login from './pages/Login'
 import CreateAlbum from './pages/CreateAlbum'
+import Photos from './pages/Photos'
 
 //style
 import './sass/App.scss'
@@ -33,6 +34,10 @@ const App = () => {
               <Route
                 path='/create'
                 element={!user ? <Login /> : <CreateAlbum />}
+              />
+              <Route
+                path='albums/:id'
+                element={!user ? <Login /> : <Photos />}
               />
             </Routes>
           </div>

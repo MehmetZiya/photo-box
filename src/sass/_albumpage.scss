@@ -38,12 +38,10 @@
     }
   }
 }
-.share {
-  margin: 1rem auto;
-  display: block;
-}
+
 .editIcon {
-  width: 20px;
+  width: 25px;
+  margin-left: 1rem;
   cursor: pointer;
 }
 .name-input {
@@ -55,6 +53,21 @@
   text-decoration: underline;
   font-weight: bold;
   cursor: pointer;
+}
+.btn-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .share,
+  .addNew {
+    margin: 1rem;
+  }
+}
+.albumName {
+  color: $primary;
+  font-weight: bold;
+  letter-spacing: 3px;
 }
 @media screen and (max-width: 600px) {
   .img-flex {

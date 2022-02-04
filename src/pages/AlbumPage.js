@@ -17,6 +17,7 @@ const AlbumPage = () => {
   const { documents, loading } = useDocument(id)
   const [showInput, setShowInput] = useState(false)
   const [error, setError] = useState(null)
+  const [reviewLink, setReviewLink] = useState(null)
   const navigate = useNavigate()
   const updateHook = useUpdateAlbum()
   const albumNameRef = useRef()
@@ -53,6 +54,9 @@ const AlbumPage = () => {
   }
 
   const newAlbumFromSelected = async () => {
+    if (selectedImages.length < 1) {
+      return
+    }
     try {
       await addDoc(collection(db, 'albums'), {
         name: `new Album from ${documents.name}`,
@@ -68,12 +72,16 @@ const AlbumPage = () => {
     }
   }
 
+  const handleShareAlbum = () => {
+    let baseURL = window.location.protocol + '//' + window.location.host + '/'
+    setReviewLink(`${baseURL}review/${id}`)
+  }
   return (
     <div>
       {documents && (
         <>
-          <h4>
-            {documents.name}
+          <h4 className='albumName'>
+            {documents.name.toUpperCase()}
             <span>
               <img
                 className='editIcon'
@@ -83,6 +91,7 @@ const AlbumPage = () => {
               />
             </span>
           </h4>
+
           {showInput && (
             <form onSubmit={updateName}>
               <input
@@ -96,7 +105,17 @@ const AlbumPage = () => {
               </button>
             </form>
           )}
-          <button className='btn share'>Share Album</button>
+          <div className='btn-box'>
+            <button className='btn share' onClick={handleShareAlbum}>
+              Share Album
+            </button>
+            <button className='btn addNew'>Add Photo</button>
+          </div>
+          {reviewLink && (
+            <p style={{ overflowWrap: 'break-word' }}>
+              Share your album: <a href={reviewLink}>{reviewLink}</a>
+            </p>
+          )}
           <div className='selected-album' onClick={newAlbumFromSelected}>
             Create new album with selected images
           </div>

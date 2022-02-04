@@ -40,7 +40,7 @@ const App = () => {
                 path='albums/:id'
                 element={!user ? <Login /> : <AlbumPage />}
               />
-              <Route path='customer/:id' element={<CustomerPage />} />
+              <Route path='review/:id' element={<CustomerPage />} />
             </Routes>
           </div>
         </BrowserRouter>

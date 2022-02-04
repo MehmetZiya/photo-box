@@ -10,7 +10,8 @@ import Home from './pages/Home'
 import Register from './pages/Register'
 import Login from './pages/Login'
 import CreateAlbum from './pages/CreateAlbum'
-import Photos from './pages/Photos'
+import AlbumPage from './pages/AlbumPage'
+import CustomerPage from './pages/CustomerPage'
 
 //style
 import './sass/App.scss'
@@ -37,8 +38,9 @@ const App = () => {
               />
               <Route
                 path='albums/:id'
-                element={!user ? <Login /> : <Photos />}
+                element={!user ? <Login /> : <AlbumPage />}
               />
+              <Route path='customer/:id' element={<CustomerPage />} />
             </Routes>
           </div>
         </BrowserRouter>

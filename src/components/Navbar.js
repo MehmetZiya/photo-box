@@ -13,7 +13,7 @@ const Navbar = () => {
           <Link to='/'>
             <div className='logo'>
               <img src={logo} alt='logo' />
-              <span>Photo Box</span>
+              <span className='nameLink'>Photo Box</span>
             </div>
           </Link>
         </li>
@@ -28,6 +28,9 @@ const Navbar = () => {
             </li>
           </>
         )}
+        <li className='addAlbum'>
+          <Link to='create'>+ Add</Link>
+        </li>
 
         {user && (
           <li>

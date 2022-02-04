@@ -6,6 +6,9 @@
   box-sizing: border-box;
   margin-bottom: 2rem;
   text-decoration: none;
+  .addAlbum {
+    display: none;
+  }
   a {
     text-decoration: none;
     margin-right: 20px;
@@ -22,18 +25,38 @@
     }
   }
   .logo {
+    align-items: center;
     font-weight: bold;
     color: $heading;
     letter-spacing: 1px;
     display: flex;
     align-items: center;
     margin-right: auto;
+    span {
+      display: block;
+      font-size: 1.3rem;
+    }
 
     img {
+      display: block;
       margin: 1rem;
       filter: invert(25%);
       width: 36px;
-      margin-top: -8px;
+      margin-top: 2px;
+    }
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .bar {
+    margin-bottom: 0;
+    .logo {
+      span {
+        display: none;
+      }
+    }
+    .addAlbum {
+      display: block;
     }
   }
 }

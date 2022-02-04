@@ -7,58 +7,69 @@ import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
 export const useUpload = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [isUploadDone, setIsUploadDone] = useState(false)
-  const [progress, setProgress] = useState(null)
+  const [progress, setProgress] = useState([])
   const [error, setError] = useState(null)
   const [imgInfo, setImgInfo] = useState(null)
 
-  const upload = async (image, uid) => {
+  const upload = async (images, uid) => {
     setIsLoading(true)
     setIsUploadDone(false)
     setError(null)
-    setImgInfo(null)
+    const progressArray = []
 
-    const uuid = uuidv4()
-    const fileRef = ref(storage, `${uid}/${uuid}`)
-    const uploadProcess = uploadBytesResumable(fileRef, image)
+    // each image has a progresbar
+    images.map((image, i) => progressArray.push(i))
 
-    uploadProcess.on(
-      'state_changed',
-      (uploadProcessSnapshot) => {
-        setProgress(
-          Math.round(
-            (uploadProcessSnapshot.bytesTransferred /
-              uploadProcessSnapshot.totalBytes) *
-              100
+    images.forEach((image, i) => {
+      setImgInfo(null)
+      const uuid = uuidv4()
+      const ext = image.name.substring(image.name.lastIndexOf('.') + 1)
+      const fileRef = ref(storage, `${uid}/${uuid}.${ext}`)
+      const uploadProcess = uploadBytesResumable(fileRef, image)
+
+      uploadProcess.on(
+        'state_changed',
+        (uploadProcessSnapshot) => {
+          progressArray.splice(
+            i,
+            1,
+            Math.round(
+              (uploadProcessSnapshot.bytesTransferred /
+                uploadProcessSnapshot.totalBytes) *
+                100
+            )
           )
-        )
-      },
-      (e) => {
-        setError('Upload failed')
-        setIsLoading(false)
-      },
-      async () => {
-        // get url
-        const url = await getDownloadURL(fileRef)
-        await addDoc(collection(db, 'images'), {
-          name: image.name,
-          artist: uid,
-          path: fileRef.fullPath,
-          type: image.type,
-          createdAt: serverTimestamp(),
-          url,
-          uuid,
-        })
+          setProgress([...progressArray])
+        },
+        (e) => {
+          setError(`Upload failed due to ${e.message}`)
+          setIsLoading(false)
+        },
+        async () => {
+          // get download url
+          const URL = await getDownloadURL(fileRef)
 
-        setImgInfo({
-          url,
-          path: fileRef.fullPath,
-          uuid,
-        })
-        setIsLoading(false)
-        setIsUploadDone(true)
-        setProgress(null)
-      }
-    )
+          const result = await addDoc(collection(db, 'images'), {
+            name: image.name,
+            path: fileRef.fullPath,
+            type: image.type,
+            createdAt: serverTimestamp(),
+            photographerId: uid,
+            URL,
+            uuid,
+          })
+          setImgInfo({
+            URL,
+            path: fileRef.fullPath,
+            uuid,
+            imageRef: result.id,
+          })
+        }
+      )
+      setIsLoading(false)
+      setIsUploadDone(true)
+      setProgress(null)
+    })
   }
   return {
     upload,
@@ -67,5 +78,6 @@ export const useUpload = () => {
     error,
     progress,
     imgInfo,
+    URL,
   }
 }

@@ -1,0 +1,67 @@
+.img-flex {
+  padding: 2rem;
+
+  .img-box {
+    display: flex;
+    position: relative;
+    width: 24rem;
+    height: auto;
+    margin: 1rem;
+
+    img {
+      width: 100%;
+    }
+    .remove-btn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 20px;
+      width: 20px;
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background-color: white;
+      color: rgb(233, 79, 79);
+      border-radius: 50%;
+      padding: 0;
+      font-size: 1.5rem;
+      cursor: pointer;
+      z-index: 5;
+    }
+
+    input {
+      display: block;
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+    }
+  }
+}
+.share {
+  margin: 1rem auto;
+  display: block;
+}
+.editIcon {
+  width: 20px;
+  cursor: pointer;
+}
+.name-input {
+  width: 55%;
+  margin-top: 1rem;
+}
+.selected-album {
+  color: $primary;
+  text-decoration: underline;
+  font-weight: bold;
+  cursor: pointer;
+}
+@media screen and (max-width: 600px) {
+  .img-flex {
+    justify-content: center;
+    padding: 0;
+    .img-box {
+      width: 9rem;
+    }
+  }
+}

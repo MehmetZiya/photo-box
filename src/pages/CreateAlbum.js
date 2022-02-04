@@ -3,7 +3,7 @@ import Dropzone from '../components/Dropzone'
 import { useUserContext } from '../hooks/useUserContext'
 import { useImageContext } from '../context/ImageContext'
 import { useDeleteImage } from '../hooks/useDeleteImage'
-import { addDoc, collection } from 'firebase/firestore'
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
 import { db } from '../firebase/config'
 import Images from '../components/Images'
 import { useNavigate } from 'react-router-dom'
@@ -12,22 +12,24 @@ const CreateAlbum = () => {
   const [error, setError] = useState(null)
   const [albumName, setAlbumName] = useState('')
   const { user } = useUserContext()
-  const { images, setImages } = useImageContext()
+  const { dropImages, setDropImages } = useImageContext()
   const navigate = useNavigate()
   const useDeleteObj = useDeleteImage()
+
   const handleSubmit = async (e) => {
     e.preventDefault()
-    if (!images.length) {
+    if (!dropImages.length) {
       setError('No image uploaded')
     } else {
       try {
         await addDoc(collection(db, 'albums'), {
           name: albumName,
           public: false,
-          images,
+          images: dropImages,
           photographerId: user.uid,
+          created: serverTimestamp(),
         })
-        setImages([])
+        setDropImages([])
         setAlbumName('')
         navigate('/')
       } catch (e) {
@@ -36,8 +38,8 @@ const CreateAlbum = () => {
     }
   }
   const handleRemoveImage = (img) => {
-    useDeleteObj.remove(img.path, img.uuid)
-    setImages((images) => images.filter((image) => image.uuid !== img.uuid))
+    useDeleteObj.remove(img)
+    setDropImages((images) => images.filter((image) => image.uuid !== img.uuid))
   }
   return (
     <div className='form-container'>
@@ -58,8 +60,8 @@ const CreateAlbum = () => {
           </button>
         </form>
         <Dropzone />
-        {images.length > 0 && <p>Photos to upload :</p>}
-        <Images images={images} onRemove={handleRemoveImage} />
+        {dropImages.length > 0 && <p>Photos to upload :</p>}
+        <Images images={dropImages} onRemove={handleRemoveImage} />
         {error && <p>{error}</p>}
       </div>
     </div>

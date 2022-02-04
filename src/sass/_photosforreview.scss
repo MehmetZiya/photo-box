@@ -1,0 +1,71 @@
+.review-btn {
+  display: flex;
+  justify-content: space-around;
+
+  i {
+    font-size: 25px;
+    cursor: pointer;
+  }
+  .fa-thumbs-up {
+    color: $primary;
+  }
+  .fa-thumbs-up:hover {
+    color: rgb(41, 190, 41);
+  }
+  .fa-thumbs-down {
+    color: rgb(179, 16, 16);
+  }
+  .fa-thumbs-down:hover {
+    color: rgb(236, 48, 48);
+  }
+}
+.review-count {
+  margin-top: 1rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  width: 100%;
+
+  .like-count {
+    width: 200px;
+    color: $primary;
+  }
+  .dislike-count {
+    color: rgb(179, 16, 16);
+  }
+
+  .badge {
+    display: inline-block;
+    text-align: center;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    color: white;
+  }
+  .like-badge {
+    background-color: $primary;
+  }
+  .dislike-badge {
+    background-color: rgb(179, 16, 16);
+  }
+}
+.bump {
+  animation: bump 300ms ease-out;
+}
+
+@keyframes bump {
+  0% {
+    transform: scale(1);
+  }
+  10% {
+    transform: scale(0.9);
+  }
+  30% {
+    transform: scale(1.1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

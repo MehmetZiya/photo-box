@@ -19,14 +19,18 @@ const Photos = ({ image, removeImage }) => {
   return (
     <div className='img-box' key={image.uuid}>
       <img src={image.URL} alt={image.path} />
-      <div className='remove-btn' onClick={() => removeImage(image)}>
-        <i className='fas fa-times-circle 2-fa'></i>
-      </div>
-      <input
-        type='checkbox'
-        checked={isSelected ? true : false}
-        onChange={handleImageSelect}
-      />
+      {removeImage && (
+        <div className='remove-btn' onClick={() => removeImage(image)}>
+          <i className='fas fa-times-circle 2-fa'></i>
+        </div>
+      )}
+      {removeImage && (
+        <input
+          type='checkbox'
+          checked={isSelected ? true : false}
+          onChange={handleImageSelect}
+        />
+      )}
     </div>
   )
 }

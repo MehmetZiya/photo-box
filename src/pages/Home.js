@@ -8,7 +8,10 @@ const Home = () => {
   return (
     <div className='homePage'>
       <h3>Album List</h3>
-      {user && <div>{documents && <AlbumList albums={documents} />}</div>}
+
+      {user && (
+        <div>{documents && <AlbumList albums={documents} user={user} />}</div>
+      )}
       {error && <p>{error}</p>}
     </div>
   )

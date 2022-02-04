@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { SRLWrapper } from 'simple-react-lightbox'
 import Photos from './Photos'
+
 const PhotosForReview = ({
   images,
   likedImages,
@@ -9,6 +10,7 @@ const PhotosForReview = ({
   setDislikedImages,
 }) => {
   const [animate, setAnimate] = useState(false)
+
   const likebagdeClasses = `review-count ${animate ? 'bump' : ''} `
 
   useEffect(() => {
@@ -60,8 +62,6 @@ const PhotosForReview = ({
 
   return (
     <div className='review-page'>
-      <button className='btn'>Send Review</button>
-
       <div className={likebagdeClasses}>
         {likedImages.length > 0 && (
           <span className='like-count'>

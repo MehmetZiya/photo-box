@@ -1,24 +1,29 @@
 import { useRef, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { useDocument } from '../hooks/useDocument'
-
+import { useNavigate } from 'react-router-dom'
 import editIcon from '../assets/editIcon.png'
 import { useState } from 'react'
 import { useUpdateAlbum } from '../hooks/useUpdateAlbum'
 import { useImageContext } from '../context/ImageContext'
 import { useDeleteImage } from '../hooks/useDeleteImage'
 import ImageGrid from '../components/ImageGrid'
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
+import { db } from '../firebase/config'
+import { useUserContext } from '../hooks/useUserContext'
 
 const AlbumPage = () => {
   const { id } = useParams()
   const { documents, loading } = useDocument(id)
   const [showInput, setShowInput] = useState(false)
-
+  const [error, setError] = useState(null)
+  const navigate = useNavigate()
   const updateHook = useUpdateAlbum()
   const albumNameRef = useRef()
-  const { images, setImages, setSelectedImages } = useImageContext()
+  const { images, setImages, selectedImages, setSelectedImages } =
+    useImageContext()
   const useDeleteObj = useDeleteImage()
-
+  const { user } = useUserContext()
   useEffect(() => {
     if (documents) {
       setImages(documents.images)
@@ -44,6 +49,22 @@ const AlbumPage = () => {
 
     if (albumNameRef.current.value !== '') {
       updateHook.updateAlbum({ name: albumNameRef.current.value }, id)
+    }
+  }
+
+  const newAlbumFromSelected = async () => {
+    try {
+      await addDoc(collection(db, 'albums'), {
+        name: `new Album from ${documents.name}`,
+        public: false,
+        images: selectedImages,
+        photographerId: user.uid,
+        created: serverTimestamp(),
+      })
+
+      navigate('/')
+    } catch (e) {
+      setError('Fail to upload album')
     }
   }
 
@@ -76,9 +97,10 @@ const AlbumPage = () => {
             </form>
           )}
           <button className='btn share'>Share Album</button>
-          <div className='selected-album'>
+          <div className='selected-album' onClick={newAlbumFromSelected}>
             Create new album with selected images
           </div>
+          <p>{error}</p>
           <div className='img-flex'>
             {loading && <p>Loading..</p>}
 

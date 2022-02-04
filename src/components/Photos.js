@@ -15,7 +15,7 @@ const Photos = ({ image, removeImage }) => {
       setisSelected(true)
     }
   }
-  console.log(selectedImages)
+
   return (
     <div className='img-box' key={image.uuid}>
       <img src={image.URL} alt={image.path} />

@@ -15,9 +15,11 @@ const AlbumList = ({ albums, user }) => {
         .map((album) => (
           <div className='album-card' key={album.id}>
             <Link to={`/albums/${album.id}`}>
-              <h5>{album.name}</h5>
+              <h5 className='album-Name'>{album.name}</h5>
               <img src={Albums} alt='albums-icon' />
-              <p>{album.created.toDate().toDateString()}</p>
+              <p className='album-Date'>
+                {album.created.toDate().toDateString()}
+              </p>
             </Link>
             <div className='remove-btn'>
               <i

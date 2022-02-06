@@ -10,6 +10,12 @@
     margin: 1rem;
     background-color: $bg;
     position: relative;
+    .album-Name {
+      overflow: hidden;
+      max-height: 3rem;
+      height: 3rem;
+    }
+
     .remove-btn {
       display: flex;
       justify-content: center;
@@ -48,10 +54,15 @@
 
 @media screen and (max-width: 600px) {
   .album-list {
-    justify-content: center;
+    justify-content: space-around;
   }
   .album-card {
     width: 8rem;
+    max-height: 14rem;
+    .album-Name,
+    .album-Date {
+      font-size: small;
+    }
     img {
       width: 6rem;
     }

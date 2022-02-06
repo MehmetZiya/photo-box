@@ -1,0 +1,12 @@
+.reviewed-photos {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+  .small-photos-box {
+    .small-photos {
+      display: flex;
+      flex-wrap: wrap;
+    }
+  }
+}

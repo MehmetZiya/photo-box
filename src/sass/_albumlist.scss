@@ -1,13 +1,32 @@
 .album-list {
-  margin: 2rem;
   display: flex;
   flex-wrap: wrap;
 
   .album-card {
+    max-width: 12rem;
     padding: 1rem;
     border-radius: 6px;
     box-shadow: 6px 5px 5px rgba(8, 5, 2, 0.2);
     margin: 1rem;
+    background-color: $bg;
+    position: relative;
+    .remove-btn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 20px;
+      width: 20px;
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background-color: white;
+      color: rgb(233, 79, 79);
+      border-radius: 50%;
+      padding: 0;
+      font-size: 1.5rem;
+      cursor: pointer;
+      z-index: 5;
+    }
   }
   .album-card:hover {
     box-shadow: 7px 6px 5px rgba(8, 5, 2, 0.4);
@@ -24,5 +43,17 @@
     width: 10rem;
     display: block;
     filter: invert(40%);
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .album-list {
+    justify-content: center;
+  }
+  .album-card {
+    width: 8rem;
+    img {
+      width: 6rem;
+    }
   }
 }

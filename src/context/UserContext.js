@@ -25,11 +25,10 @@ export const UserContextProvider = ({ children }) => {
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (user) => {
       dispatch({ type: 'AUTH_OK', payload: user })
-      console.log('user status changed', user)
       unsub()
     })
   }, [])
-  console.log(state)
+
   return (
     <UserContext.Provider value={{ ...state, dispatch }}>
       {children}

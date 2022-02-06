@@ -7,7 +7,7 @@ import ProgressBar from 'react-bootstrap/ProgressBar'
 
 const Dropzone = () => {
   const { user } = useUserContext()
-  const { images, setImages, setIsUploadDone } = useImageContext()
+  const { dropImages, setDropImages, setIsUploadDone } = useImageContext()
   const { upload, isLoading, error, progress, imgInfo } = useUpload()
 
   const onDrop = useCallback(
@@ -15,7 +15,7 @@ const Dropzone = () => {
       if (!acceptedFiles.length) {
         return
       }
-      upload(acceptedFiles[0], user.uid)
+      upload(acceptedFiles, user.uid)
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
@@ -23,12 +23,13 @@ const Dropzone = () => {
 
   useEffect(() => {
     if (imgInfo) {
-      setImages([
-        ...images,
+      setDropImages([
+        ...dropImages,
         {
           path: imgInfo.path,
-          url: imgInfo.url,
+          URL: imgInfo.URL,
           uuid: imgInfo.uuid,
+          imageRef: imgInfo.imageRef,
         },
       ])
     }
@@ -43,7 +44,6 @@ const Dropzone = () => {
   const { getRootProps, getInputProps, acceptedFiles } = useDropzone({
     accept: 'image/jpeg, image/jpg, image/png',
     onDrop,
-    maxFiles: 1,
   })
   return (
     <>
@@ -53,16 +53,17 @@ const Dropzone = () => {
         {acceptedFiles.length > 0 && (
           <div>
             <ul>
-              {acceptedFiles.map((file) => (
-                <li key={file.name}>
+              {acceptedFiles.map((file, i) => (
+                <li key={i}>
                   {file.name} ({Math.round(file.size / 1024)} kb)
                 </li>
               ))}
-              {progress && (
-                <div>
-                  <ProgressBar animated now={progress} />
-                </div>
-              )}
+              {progress &&
+                progress.map((prog, i) => (
+                  <div className='progBar' key={i}>
+                    <ProgressBar animated now={prog} />
+                  </div>
+                ))}
               {error && <p>{error}</p>}
             </ul>
           </div>

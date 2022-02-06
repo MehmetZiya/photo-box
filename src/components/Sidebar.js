@@ -8,7 +8,7 @@ const Sidebar = () => {
     <div className='sidebar'>
       <div className='sidebar-content'>
         <div className='user'>
-          <p>Hello {user.displayName}!</p>
+          <p>Hello {user.displayName.toUpperCase()}!</p>
         </div>
         <nav className='links'>
           <ul>

@@ -45,6 +45,7 @@ const CreateAlbum = () => {
     <div className='form-container'>
       <div className='create-form'>
         <h3>Add Album</h3>
+
         <form onSubmit={handleSubmit}>
           <label>
             <span>Album name:</span>
@@ -59,9 +60,11 @@ const CreateAlbum = () => {
             Upload
           </button>
         </form>
+
         <Dropzone />
         {dropImages.length > 0 && <p>Photos to upload :</p>}
         <Images images={dropImages} onRemove={handleRemoveImage} />
+
         {error && <p>{error}</p>}
       </div>
     </div>

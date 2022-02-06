@@ -10,7 +10,6 @@ const PhotosForReview = ({
   setDislikedImages,
 }) => {
   const [animate, setAnimate] = useState(false)
-
   const likebagdeClasses = `review-count ${animate ? 'bump' : ''} `
 
   useEffect(() => {

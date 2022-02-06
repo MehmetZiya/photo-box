@@ -12,6 +12,7 @@ const CustomerPage = () => {
   const [likedImages, setLikedImages] = useState([])
   const [dislikedImages, setDislikedImages] = useState([])
   const [error, setError] = useState(null)
+  const [isAllPhotosReviewed, setIsAllPhotosReviewed] = useState(null)
   const { documents, loading } = useDocument(id)
   const { images, setImages } = useImageContext()
   const navigate = useNavigate()
@@ -20,15 +21,28 @@ const CustomerPage = () => {
     if (documents) {
       setImages(documents.images)
     }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [documents])
 
+  useEffect(() => {
+    if (likedImages.length + dislikedImages.length === images.length) {
+      setIsAllPhotosReviewed(false)
+    }
+  }, [dislikedImages.length, images.length, likedImages.length])
+
   const newAlbumFromReview = async () => {
     if (likedImages.length < 1) {
+      setIsAllPhotosReviewed(true)
       return
     }
-    console.log(likedImages)
+    if (likedImages.length + dislikedImages.length !== images.length) {
+      setIsAllPhotosReviewed(true)
+      return
+    }
+    if (likedImages.length + dislikedImages.length === images.length) {
+      setIsAllPhotosReviewed(false)
+    }
+
     try {
       await addDoc(collection(db, 'albums'), {
         name: `Reviewed ${documents.name}`,
@@ -53,6 +67,33 @@ const CustomerPage = () => {
             Send Review
           </button>
           {error && <p>{error}</p>}
+          {isAllPhotosReviewed && <p>Please review all photos</p>}
+          <div className='reviewed-photos'>
+            {likedImages.length > 0 && (
+              <div className='small-photos-box'>
+                <h5>Liked Photos</h5>
+                <div className='small-photos'>
+                  {likedImages.map((image, i) => (
+                    <div className='image-box' key={i}>
+                      <img src={image.URL} alt={image.name} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+            {dislikedImages.length > 0 && (
+              <div className='small-photos-box'>
+                <h5>Disliked Photos</h5>
+                <div className='small-photos'>
+                  {dislikedImages.map((image, i) => (
+                    <div className='image-box' key={i}>
+                      <img src={image.URL} alt={image.name} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
           <div className='img-flex'>
             {loading && <p>Loading..</p>}
             <PhotosForReview

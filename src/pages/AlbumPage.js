@@ -8,21 +8,34 @@ import { useUpdateAlbum } from '../hooks/useUpdateAlbum'
 import { useImageContext } from '../context/ImageContext'
 import { useDeleteImage } from '../hooks/useDeleteImage'
 import ImageGrid from '../components/ImageGrid'
-import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
+import {
+  addDoc,
+  arrayUnion,
+  collection,
+  serverTimestamp,
+} from 'firebase/firestore'
 import { db } from '../firebase/config'
 import { useUserContext } from '../hooks/useUserContext'
+import AddPhotoToAlbum from '../components/AddPhotoToAlbum'
 
 const AlbumPage = () => {
   const { id } = useParams()
   const { documents, loading } = useDocument(id)
   const [showInput, setShowInput] = useState(false)
+  const [showDropZone, setShowDropZone] = useState(false)
   const [error, setError] = useState(null)
   const [reviewLink, setReviewLink] = useState(null)
   const navigate = useNavigate()
   const updateHook = useUpdateAlbum()
   const albumNameRef = useRef()
-  const { images, setImages, selectedImages, setSelectedImages } =
-    useImageContext()
+  const {
+    images,
+    setImages,
+    selectedImages,
+    setSelectedImages,
+    dropImages,
+    setDropImages,
+  } = useImageContext()
   const useDeleteObj = useDeleteImage()
   const { user } = useUserContext()
   useEffect(() => {
@@ -52,7 +65,13 @@ const AlbumPage = () => {
       updateHook.updateAlbum({ name: albumNameRef.current.value }, id)
     }
   }
-
+  const handleAddPhoto = (e) => {
+    e.preventDefault()
+    if (dropImages.length > 0) {
+      updateHook.updateAlbum({ images: arrayUnion(...dropImages) }, id)
+    }
+    setDropImages([])
+  }
   const newAlbumFromSelected = async () => {
     if (selectedImages.length < 1) {
       return
@@ -76,6 +95,7 @@ const AlbumPage = () => {
     let baseURL = window.location.protocol + '//' + window.location.host + '/'
     setReviewLink(`${baseURL}review/${id}`)
   }
+
   return (
     <div>
       {documents && (
@@ -101,7 +121,7 @@ const AlbumPage = () => {
                 placeholder='change album name'
               />
               <button type='submit' className='btn'>
-                update
+                Save Name
               </button>
             </form>
           )}
@@ -109,10 +129,15 @@ const AlbumPage = () => {
             <button className='btn share' onClick={handleShareAlbum}>
               Share Album
             </button>
-            <button className='btn addNew'>Add Photo</button>
+            <button
+              className='btn addNew'
+              onClick={() => setShowDropZone(!showDropZone)}
+            >
+              Add Photo
+            </button>
           </div>
           {reviewLink && (
-            <p style={{ overflowWrap: 'break-word' }}>
+            <p className='share-link' style={{ overflowWrap: 'break-word' }}>
               Share your album: <a href={reviewLink}>{reviewLink}</a>
             </p>
           )}
@@ -120,9 +145,14 @@ const AlbumPage = () => {
             Create new album with selected images
           </div>
           <p>{error}</p>
+          {showDropZone && (
+            <div className='newPhoto-upload'>
+              <AddPhotoToAlbum handleAddPhoto={handleAddPhoto} />
+            </div>
+          )}
+
           <div className='img-flex'>
             {loading && <p>Loading..</p>}
-
             <ImageGrid images={images} removeImage={handleRemoveImage} />
           </div>
         </>

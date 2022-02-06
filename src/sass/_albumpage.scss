@@ -1,5 +1,5 @@
 .img-flex {
-  padding: 2rem;
+  padding: 1rem;
 
   .img-box {
     display: flex;
@@ -64,17 +64,33 @@
     margin: 1rem;
   }
 }
+.newPhoto-upload {
+  width: 60%;
+  margin: 1rem auto;
+}
 .albumName {
   color: $primary;
   font-weight: bold;
   letter-spacing: 3px;
+  margin-bottom: 1rem;
 }
+
 @media screen and (max-width: 600px) {
   .img-flex {
     justify-content: center;
     padding: 0;
     .img-box {
       width: 9rem;
+    }
+  }
+  .share-link {
+    a {
+      font-size: 12px;
+    }
+  }
+  .small-photos {
+    img {
+      width: 4rem;
     }
   }
 }

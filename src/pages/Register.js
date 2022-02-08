@@ -1,16 +1,18 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useRegister } from '../hooks/useRegister'
 
 const Register = () => {
   const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-
+  const navigate = useNavigate()
   const { isPending, error, register } = useRegister()
 
   const handleSubmit = (e) => {
     e.preventDefault()
     register(email, password, username)
+    navigate('/')
   }
   return (
     <form className='login-form' onSubmit={handleSubmit}>
@@ -42,7 +44,7 @@ const Register = () => {
           value={password}
         />
       </label>
-      {!isPending && <button className='btn'>Log in</button>}
+      {!isPending && <button className='btn'>Register</button>}
       {isPending && (
         <button disabled className='btn'>
           Loading..

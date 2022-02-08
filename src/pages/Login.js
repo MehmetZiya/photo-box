@@ -1,13 +1,15 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useLogin } from '../hooks/useLogin'
 const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const { login, error, isPending } = useLogin()
-
+  const navigate = useNavigate()
   const handleSubmit = (e) => {
     e.preventDefault()
     login(email, password)
+    navigate('/')
   }
   return (
     <form className='login-form' onSubmit={handleSubmit}>

@@ -1,6 +1,11 @@
 .album-list {
   display: flex;
   flex-wrap: wrap;
+  p {
+    width: 100%;
+    text-align: center;
+    margin-top: 2rem;
+  }
 
   .album-card {
     max-width: 12rem;

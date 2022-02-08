@@ -9,7 +9,7 @@ const AlbumList = ({ albums, user }) => {
     <div className='album-list'>
       {albums.filter((album) => album.photographerId === user.uid).length ===
         0 && (
-        <p>{`Hi ${user.displayName.toUpperCase()}! You have not a album yet.`}</p>
+        <p className='noAlbum'>{`Hi ${user.displayName.toUpperCase()}! You have not a album yet.`}</p>
       )}
       {albums
         .filter((album) => album.photographerId === user.uid)

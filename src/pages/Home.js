@@ -3,7 +3,7 @@ import { useCollection } from '../hooks/useCollection'
 import { useUserContext } from '../hooks/useUserContext'
 const Home = () => {
   const { user } = useUserContext()
-  const { documents, error } = useCollection('albums')
+  const { documents, error } = useCollection('albums', ['created', 'desc'])
 
   return (
     <div className='homePage'>

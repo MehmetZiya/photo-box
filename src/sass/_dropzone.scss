@@ -18,3 +18,11 @@
     margin-top: 1rem;
   }
 }
+
+@media screen and (max-width: 600px) {
+  #dropzone-container {
+    li {
+      font-size: 10px;
+    }
+  }
+}
